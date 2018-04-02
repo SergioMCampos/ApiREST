@@ -24,23 +24,68 @@ function usersCreate(req, res){
     //console.log(parametros);
 
     users.user = parametros.user;
-    users.password = parametros.password;
+    
+    if(parametros.password){
 
-    (users).save((error, userSave)=>{
+        bcrypt.hash(parametros.password, null, null, function(err, hash){
+            
+            users.password = hash;
+            
+            if(parametros.user != null){
+
+                (users).save((error, userSave)=>{
+
+                    if(error){
+            
+                        res.status(500).send({mensaje: "Error al guardar el usuario"})
+                    }else{
+            
+                        res.status(200).send({userSave})
+                    }
+                })
+            }
+        })
+
+    }
+}
+
+//Metodo para el login de usuarios
+function userLogin(req, res){
+
+    var parametros = req.body;
+    var user = parametros.user;
+    var password = parametros.password;
+
+    Users.findOne({user:user}, (error, selectUser)=>{
 
         if(error){
 
-            res.status(500).send({mensaje: "Error al guardar el usuario"})
+            res.status(500).send({mensaje: "Error al logear el usuario"})
+
         }else{
 
-            res.status(200).send({userSave})
+            if(!user){
+                res.status(404).send({mensaje: "El usuario no existe en la base de datos"})
+            }else{
+                //res.status(200).send({selectUser});
+                bcrypt.compare(password, selectUser.password, function(error, ok){
+                    
+                    if(ok){
+                        res.status(200).send({selectUser});
+                    }else{
+                        res.status(404).send({mensaje: "El usuario no ha podido logear"})
+                    }
+
+                })
+            }
         }
     })
-
 }
+
 
 //Exportamos los métodos del módulo
 module.exports = {
     pruebaUsers,
-    usersCreate
+    usersCreate,
+    userLogin
 }

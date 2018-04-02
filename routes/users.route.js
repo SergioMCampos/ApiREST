@@ -14,5 +14,8 @@ api.get("/probando-controlador-usuarios", usersController.pruebaUsers);
 //Creamos la ruta para crear usuarios y utilizamos el método POST
 api.post("/crear-usuarios", usersController.usersCreate);
 
+//Creamos la ruta para el login de usuarios y utilizamos el método POST
+api.post("/login", usersController.userLogin);
+
 //Exportamos el módulo api
 module.exports = api;
