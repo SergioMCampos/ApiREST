@@ -13,6 +13,9 @@ var Users = require("../models/users.models.js");
 //Importamos la dependencia para encriptar contraseñas
 var bcrypt = require("bcrypt-nodejs");
 
+//Importamos el token
+var token = require("../token/token.js");
+
 //Metodo creacion de usuarios
 function usersCreate(req, res){
 
@@ -71,7 +74,13 @@ function userLogin(req, res){
                 bcrypt.compare(password, selectUser.password, function(error, ok){
                     
                     if(ok){
-                        res.status(200).send({selectUser});
+                        //res.status(200).send({selectUser});
+
+                        //Se deberia enviar un parámetro token true
+                        if(parametros.token){
+                            //Devolvemos un token de JWT
+                            res.status(200).send({token: token.tokenCreate(selectUser)})
+                        }
                     }else{
                         res.status(404).send({mensaje: "El usuario no ha podido logear"})
                     }
