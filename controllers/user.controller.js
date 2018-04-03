@@ -16,7 +16,7 @@ var bcrypt = require("bcrypt-nodejs");
 //Importamos el token
 var token = require("../token/token.js");
 
-//Metodo creacion de usuarios
+//METODO CREACION DE USUARIO
 function usersCreate(req, res){
 
     //Creamos una variable que traiga el objeto del modelo Users
@@ -52,7 +52,7 @@ function usersCreate(req, res){
     }
 }
 
-//Metodo para el login de usuarios
+//METODO PARA LOGIN DE USUARIO
 function userLogin(req, res){
 
     var parametros = req.body;
@@ -91,6 +91,7 @@ function userLogin(req, res){
     })
 }
 
+//METODO PARA ACTUALIZAR USUARIO
 function updateUser(req, res){
 
     //Llamamos por parametro al id que queremos actualizar
@@ -119,10 +120,39 @@ function updateUser(req, res){
     })
 }
 
+//METODO PARA BORRAR USUARIO
+function deleteUser(req, res){
+
+    var id = req.params.id;
+
+    if(id != req.userToken.sub){
+        return res.status(500).send({mensaje: "No tienes permisos para actualizar este usuario"})
+    }
+
+
+    //Recorremos la base datos con el método findByIdAndRemove
+    Users.findByIdAndRemove(id, (error, userDelete)=>{
+
+        if(error){
+            return res.status(500).send({mensaje: "Error al borrar el usuario"})
+        }else{
+            if(!userDelete){
+                res.status(404).send({mensaje: "No se ha podido borrar el usuario"})
+            }else{
+                res.status(200).send({userDelete})
+            }
+        }
+
+    })
+
+}
+
+
 //Exportamos los métodos del módulo
 module.exports = {
     pruebaUsers,
     usersCreate,
     userLogin,
-    updateUser
+    updateUser,
+    deleteUser
 }

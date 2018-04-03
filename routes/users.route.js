@@ -22,5 +22,8 @@ api.post("/login", usersController.userLogin);
 //Creamos la ruta para la autentificación del usuario
 api.put("/actulizar-usuario/:id", md_aut.authentication, usersController.updateUser);
 
+//Creamos la ruta para borrar al usuario
+api.delete("/borrar-usuario/:id", md_aut.authentication, usersController.deleteUser);
+
 //Exportamos el módulo api
 module.exports = api;
