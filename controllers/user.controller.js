@@ -91,10 +91,38 @@ function userLogin(req, res){
     })
 }
 
+function updateUser(req, res){
+
+    //Llamamos por parametro al id que queremos actualizar
+    var id = req.params.id;
+    //Con esto cogemos los datos del formulario
+    var update = req.body;
+
+    if(id != req.userToken.sub){
+        return res.status(500).send({mensaje: "No tienes permisos para actualizar este usuario"})
+    }
+
+    //Recorremos la base datos con el método findByIdAndUpdate
+
+    Users.findByIdAndUpdate(id, update, (error, userUpdate) =>{
+
+        if(error){
+            res.status(500).send({mensaje: "Error al actualizar el usuario"})
+        }else{
+
+            if(!userUpdate){
+                res.status(404).send({mensaje: "No se ha podido actualizar el usuario"})
+            }else{
+                res.status(200).send({userUpdate})
+            }
+        }
+    })
+}
 
 //Exportamos los métodos del módulo
 module.exports = {
     pruebaUsers,
     usersCreate,
-    userLogin
+    userLogin,
+    updateUser
 }

@@ -19,5 +19,8 @@ api.post("/crear-usuarios", usersController.usersCreate);
 //Creamos la ruta para el login de usuarios y utilizamos el método POST
 api.post("/login", usersController.userLogin);
 
+//Creamos la ruta para la autentificación del usuario
+api.put("/actulizar-usuario/:id", md_aut.authentication, usersController.updateUser);
+
 //Exportamos el módulo api
 module.exports = api;
