@@ -15,6 +15,16 @@ app.use(bodyParser.json());
 //CARGAR RUTAS
 var usersRoute = require ("./routes/users.route.js");
 
+//CABECERAS HTTP
+app.use((req, res, next)=>{
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
+    next();
+    
+   })
+
 //RUTAS BASE 
 //El metodo get() es una referencia de Express para poder habilitar la apalicación en el puerto establecido
 //Se ponen dos parametros, el primero la ruta de la aplicación, el segundo una función con dos parámetros internos, un primer parámetro que es la solicitud "req", es decir lo que va a recibir de la petición y luego un segundo parámetro con la respuesta "res" que es lo que va a devolver

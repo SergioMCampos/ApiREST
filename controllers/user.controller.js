@@ -137,7 +137,7 @@ function deleteUser(req, res){
             return res.status(500).send({mensaje: "Error al borrar el usuario"})
         }else{
             if(!userDelete){
-                res.status(404).send({mensaje: "No se ha podido borrar el usuario"})
+                res.status(404).send({mensaje: "No se ha podido actualizar el usuario"})
             }else{
                 res.status(200).send({userDelete})
             }
