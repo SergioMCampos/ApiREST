@@ -1,7 +1,7 @@
 /*
  * @Author: nutepas 
  * @Date: 2018-03-31 00:51:09 
- * @Last Modified by: mikey.zhaopeng
+ * @Last Modified by: nutepas
  * @Last Modified time: 2018-04-02 16:31:28
  */
 "use strict"
@@ -15,7 +15,7 @@ var mongoose = require("mongoose");
 //Modulo express
 var app = require("./app");
 //Esto es para establecer la variable de entorno PORT (puerto HTTP)
-var port = process.env.PORT || 1238;
+var port = process.env.PORT || 1234;
 
 //Conexión a base datos
 mongoose.connect("mongodb://localhost:27017/mongo", (error, answer) => {
